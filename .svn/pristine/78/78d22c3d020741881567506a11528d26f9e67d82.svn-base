@@ -1,0 +1,233 @@
+=== Michael Cloud Image Auto Importer ===
+Contributors: mike17894
+Tags: woocommerce, image import,  seo alt generation, image compression, duplicate detection
+Requires at least: 5.6
+Tested up to: 6.9
+Requires PHP: 7.2
+Stable tag: 2.0.1
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+Import images from Google Drive into the WordPress Media Library with optional Cloudflare Worker or Google API authentication.
+
+== Description ==
+
+Michael Cloud Image Auto Importer allows you to import images directly from Google Drive into your WordPress Media Library.
+
+It is designed for bloggers, developers, eCommerce stores, and content creators who manage media externally and want a fast, automated way to bring images into WordPress.
+
+The plugin supports two authentication methods:
+
+1. **Cloudflare Worker (Recommended)** – One-click connection with no API setup required  
+2. **Google API (Advanced)** – Use your own credentials for full control  
+
+== Key Features ==
+
+* 🔐 **Zero Configuration Option** – Connect instantly using Cloudflare Worker
+* ☁️ **Cloudflare Worker Integration** – Secure OAuth without exposing credentials in WordPress
+* 🔑 **Google API Support** – Use your own credentials if preferred
+* 📁 **Bulk Image Import** – Import entire Google Drive folders
+* 🔍 **Duplicate Detection** – MD5 hashing prevents duplicate uploads
+* 📝 **SEO-Friendly Alt Text** – Automatically generated from filenames
+* 🗜️ **Image Compression** – Optional compression with adjustable quality
+* 📊 **Real-Time Progress** – Live import tracking and statistics
+* 📋 **Import Logs** – Detailed success and error tracking
+* 🚀 **Unlimited Imports** – No artificial limits
+* 🎨 **Clean Admin UI** – Simple and intuitive interface
+* 🌍 **Multisite Support** – Fully compatible
+
+== External Services ==
+
+This plugin connects to third-party services to enable Google Drive functionality.
+
+=== Option 1: Cloudflare Worker (Recommended) ===
+
+**Service:** Cloudflare Worker (Google OAuth Proxy)  
+**Purpose:** Handles Google OAuth authentication securely without storing credentials in WordPress  
+
+**Data Transmitted:**
+- OAuth authorization codes  
+- Temporary session tokens  
+
+**Service Provider:** Cloudflare, Inc. (Worker script operated by the plugin author)  
+
+**Third-Party Service:** Yes – requests are sent to a Cloudflare Worker endpoint controlled by the plugin developer  
+
+**Privacy Policy:** https://www.cloudflare.com/privacypolicy/  
+
+**Note:**  
+The Cloudflare Worker acts as a proxy between your WordPress site and Google APIs.  
+No images are stored on the worker. Files are downloaded directly to your server.  
+
+---
+
+=== Option 2: Google Drive API ===
+
+**Service:** Google Drive API  
+**Purpose:** Access and download files from your Google Drive  
+
+**Data Transmitted:**
+- OAuth authentication tokens  
+- File metadata (names, IDs, sizes, MIME types)  
+- File hashes (for duplicate detection)  
+- File content during downloads  
+
+**Service Provider:** Google LLC  
+
+**Terms:** https://developers.google.com/drive/terms  
+**Privacy Policy:** https://policies.google.com/privacy  
+
+---
+
+**User Consent:**  
+By clicking "Connect Google Drive", you explicitly consent to sending authentication data to the selected service (Cloudflare Worker or Google API).
+
+== How It Works ==
+
+=== Option A: Cloudflare Worker (Recommended) ===
+
+1. Click "Connect Google Drive"  
+2. Authorize your Google account  
+3. Paste your Drive folder URL  
+4. Start importing images  
+
+No API setup required.
+
+---
+
+=== Option B: Google API (Advanced) ===
+
+1. Create a Google Cloud project  
+2. Enable Google Drive API  
+3. Generate OAuth credentials  
+4. Enter credentials in plugin settings  
+5. Connect and import  
+
+== Installation ==
+
+=== Quick Setup (Recommended) ===
+
+1. Upload the plugin to `/wp-content/plugins/`  
+2. Activate it via the Plugins menu  
+3. Go to **Cloud Importer** in admin  
+4. Click **Connect Google Drive**  
+5. Authorize access  
+6. Start importing  
+
+---
+
+=== Manual Setup (Google API) ===
+
+1. Follow Google API setup below  
+2. Enter credentials in settings  
+3. Connect and import  
+
+== Google API Setup ==
+
+1. Go to https://console.cloud.google.com/  
+2. Create or select a project  
+3. Enable **Google Drive API**  
+4. Go to **Credentials → Create OAuth Client ID**  
+5. Choose **Web Application**  
+6. Add redirect URI:
+
+   `[your-site]/wp-admin/admin.php?page=cloud-auto-importer`
+
+7. Copy Client ID & Secret into plugin settings  
+
+== Frequently Asked Questions ==
+
+= Do I need Google API credentials? =  
+No. The Cloudflare Worker option allows one-click connection without credentials.
+
+= Is the Cloudflare Worker secure? =  
+Yes. It uses Cloudflare infrastructure and does not store your images.
+
+= Can I use my own API credentials? =  
+Yes. The traditional Google API method is fully supported.
+
+= Are there import limits? =  
+No. You can import unlimited images.
+
+= Can I import shared folders? =  
+Yes. Any accessible Google Drive folder works.
+
+= What formats are supported? =  
+JPG, PNG, GIF, WebP, SVG, BMP, TIFF, ICO.
+
+= How are duplicates handled? =  
+Files are hashed using MD5 and skipped if already imported.
+
+= What happens on uninstall? =  
+You can choose to retain or delete plugin data.
+
+= Multisite support? =  
+Yes.
+
+== Screenshots ==
+
+1. Main Interface  
+2. Import Progress  
+3. Settings Page  
+4. Import Logs  
+5. Setup Guide  
+
+== Changelog ==
+
+= 2.0.1 =
+* Key Features Updation
+* Security Features Updated
+
+= 2.0.0 =
+* Added Cloudflare Worker authentication (zero-config)
+* One-click Google Drive connection
+* Improved error handling
+* Enhanced documentation
+* Security improvements
+
+= 1.0.7 =
+* Reliability improvements
+
+= 1.0.6 =
+* Fixed text domain issues
+
+= 1.0.5 =
+* Added external services documentation
+
+= 1.0.4 =
+* Code standard improvements
+* Security fixes
+* Prefix standardization
+
+= 1.0.3 =
+* Plugin rename
+
+= 1.0.2 =
+* PHPCS fixes
+* Improved sanitization
+
+= 1.0.1 =
+* Compression improvements
+* Bug fixes
+
+= 1.0.0 =
+* Initial release
+
+== Upgrade Notice ==
+
+= 2.0.1 =
+Security Features strengthen ,Cloudflare Worker integration added. Recommended update.
+
+== Languages ==
+
+* English  
+* Text Domain: michael-cloud-image-auto-importer  
+
+== Credits ==
+
+Developed by Michael Otieno (mike17894)  
+Powered by Google Drive API and Cloudflare Workers  
+
+== Support ==
+
+https://wordpress.org/support/plugin/michael-cloud-image-auto-importer/
