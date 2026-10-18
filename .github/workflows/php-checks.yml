@@ -1,0 +1,72 @@
+﻿name: PHP Quality Checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  php-syntax:
+    name: PHP Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: none
+          coverage: none
+
+      - name: Check PHP syntax in trunk
+        shell: bash
+        run: |
+          set -euo pipefail
+          count=0
+          while IFS= read -r -d '' file; do
+            php -l "$file"
+            count=$((count + 1))
+          done < <(find trunk -type f -name '*.php' -print0)
+
+          if [ "$count" -eq 0 ]; then
+            echo "No PHP files found in trunk."
+            exit 1
+          fi
+
+          echo "Successfully checked $count PHP files."
+
+  wordpress-standards:
+    name: WordPress Coding Standards
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP and tools
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer, phpcs
+          coverage: none
+
+      - name: Install WordPress Coding Standards
+        run: |
+          composer global require --no-interaction --no-progress \
+            wp-coding-standards/wpcs:^3.0
+
+          echo "$(composer global config bin-dir --absolute)" >> "$GITHUB_PATH"
+
+          phpcs --config-set installed_paths \
+            "$(composer global config home)/vendor/wp-coding-standards/wpcs"
+
+      - name: Check WordPress coding standards
+        run: phpcs --standard=WordPress --extensions=php trunk
